@@ -12,12 +12,13 @@ function LogidyDevice.handle (object, deviceName, commandType, description, meta
    local midiValue  = tonumber(string.sub(metadata['data'], -2), 16)
 
    if commandType == 'controlChange' then
+      switchOn = midiValue == MIDI_MAX
       if channel  == 0 then
-         LogidyDevice.switch1 = midiValue == MIDI_MAX
+         LogidyDevice.switch1 = switchOn
       elseif channel == 1 then
-         LogidyDevice.switch2 = midiValue == MIDI_MAX
+         LogidyDevice.switch2 = switchOn
       elseif channel == 2 then
-         LogidyDevice.switch3 = midiValue == MIDI_MAX
+         LogidyDevice.switch3 = switchOn
       elseif channel == 3 then
          if LogidyDevice.switch3 then
             -- vertical scroll
