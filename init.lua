@@ -1,4 +1,4 @@
-deviceName = "Logidy UMI3"
+deviceName = 'Logidy UMI3'
 device = null
 
 MIDI_MIN = 0
@@ -11,7 +11,7 @@ function LogidyDevice.handle (object, deviceName, commandType, description, meta
    local channel = metadata['channel']
    local midiValue  = tonumber(string.sub(metadata['data'], -2), 16)
 
-   if commandType == "controlChange" then
+   if commandType == 'controlChange' then
       if channel  == 0 then
          LogidyDevice.switch1 = midiValue == MIDI_MAX
       elseif channel == 1 then
@@ -20,8 +20,10 @@ function LogidyDevice.handle (object, deviceName, commandType, description, meta
          LogidyDevice.switch3 = midiValue == MIDI_MAX
       elseif channel == 3 then
          if LogidyDevice.switch3 then
+            -- vertical scroll
             hs.eventtap.scrollWheel({ 0, LogidyDevice.pedal - midiValue }, {})
          elseif LogidyDevice.switch2 then
+            -- horizontal scroll
             hs.eventtap.scrollWheel({ LogidyDevice.pedal - midiValue, 0 }, {})
          end
          LogidyDevice.pedal = midiValue
